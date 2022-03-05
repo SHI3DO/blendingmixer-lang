@@ -15,15 +15,15 @@ class Blendermixerlang:
         compiled = self.parse(content.replace(' ', '').replace('\n', ''))
         compiled = '\n'.join(compiled)
 
+
         outf = open(str(blemixf).replace('blemix', 'py'), 'w', encoding='UTF-8')
         outf.write(compiled)
         outf.close()
 
         subprocess.call(['python', str(blemixf).replace('blemix', 'py')])
-        os.remove(str(blemixf).replace('blemix', 'py'))
+        #os.remove(str(blemixf).replace('blemix', 'py'))
 
     def parse(self, content):
-        compiled = ''
         compiled = self.ruleset(self.parse_find(content))
         return compiled
 
@@ -57,6 +57,12 @@ class Blendermixerlang:
         bbing = value.count('삥')
         tmpvalue = tmpvalue + cu
         tmpvalue = tmpvalue - bbing
+
+        if value.count('어쩔') > 0:
+            faddvalue = re.search('(.+?)어쩔', value).group(1)
+            saddvalue = re.search('어쩔(.+?)$', value).group(1)
+            tmpvalue = f'{self.hashconvert(hashlib.sha256(faddvalue.encode()).hexdigest())} + {self.hashconvert(hashlib.sha256(saddvalue.encode()).hexdigest())}'
+
 
         tmpvar = self.hashconvert(hashlib.sha256(var.encode()).hexdigest())
 
