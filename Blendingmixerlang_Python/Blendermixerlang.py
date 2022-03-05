@@ -21,7 +21,7 @@ class Blendermixerlang:
         outf.close()
 
         subprocess.call(['python', str(blemixf).replace('blemix', 'py')])
-        #os.remove(str(blemixf).replace('blemix', 'py'))
+        os.remove(str(blemixf).replace('blemix', 'py'))
 
     def parse(self, content):
         compiled = self.ruleset(self.parse_find(content))
